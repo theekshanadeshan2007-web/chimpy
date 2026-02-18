@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chimpy Market Analysis - Crack the Code of Your Competition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --electric-yellow: #FFE500;
+            --deep-black: #0a0a0a;
+            --card-black: #111111;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--deep-black);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        /* Custom Glow Effects */
+        .glow-yellow {
+            box-shadow: 0 0 20px rgba(255, 229, 0, 0.3), 0 0 40px rgba(255, 229, 0, 0.1);
+        }
+        
+        .glow-yellow-strong {
+            box-shadow: 0 0 30px rgba(255, 229, 0, 0.5), 0 0 60px rgba(255, 229, 0, 0.2);
+        }
+        
+        .text-glow {
+            text-shadow: 0 0 20px rgba(255, 229, 0, 0.5);
+        }
+        
+        /* Animated Background Grid */
+        .bg-grid {
+            background-image: 
+                linear-gradient(rgba(255, 229, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 229, 0, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        /* Floating Animation for Mascot */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Pulse Glow for CTA */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 229, 0, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(255, 229, 0, 0.8), 0 0 60px rgba(255, 229, 0, 0.4); }
+        }
+        
+        .animate-pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        /* Card Hover Effects */
+        .tool-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 229, 0, 0.1);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 229, 0, 0.5);
+            box-shadow: 0 10px 40px rgba(255, 229, 0, 0.2);
+        }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #FFE500 0%, #FFD000 50%, #FFE500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #FFE500;
+            border-radius: 4px;
+        }
+        
+        /* Modal Animation */
+        .modal-enter {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        
+        .modal-enter-active {
+            opacity: 1;
+            transform: scale(1);
+            transition: all 0.3s ease-out;
+        }
+        
+        /* Chart Animation */
+        @keyframes drawLine {
+            to { stroke-dashoffset: 0; }
+        }
+        
+        .chart-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawLine 2s ease-out forwards;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-yellow-500/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center">
+                        <i data-lucide="mouse-pointer-2" class="w-5 h-5 text-black"></i>
+                    </div>
+                    <span class="font-display font-bold text-xl tracking-tight">
+                        Chimpy<span class="text-yellow-400">.</span>
+                    </span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#tools" class="text-gray-400 hover:text-yellow-400 transition-colors text-sm font-medium">Tools</a>
+                    <a href="#features" class="text-gray-400 hover:text-yellow-400 transition-colors text-sm font-medium">Features</a>
+                    <a href="#pricing" class="text-gray-400 hover:text-yellow-400 transition-colors text-sm font-medium">Pricing</a>
+                </div>
+                
+                <!-- Auth Buttons -->
+                <div class="flex items-center space-x-4">
+                    <button onclick="openModal('signin')" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">
+                        Sign In
+                    </button>
+                    <button onclick="openModal('signup')" class="bg-yellow-400 text-black px-5 py-2 rounded-full font-semibold text-sm hover:bg-yellow-300 transition-all transform hover:scale-105 animate-pulse-glow">
+                        Get Started Free
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
+        <!-- Animated Background -->
+        <div class="absolute inset-0 bg-grid opacity-30"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
+        
+        <!-- Floating Particles -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-yellow-400 rounded-full opacity-20 animate-pulse"></div>
+            <div class="absolute top-3/4 right-1/4 w-3 h-3 bg-yellow-400 rounded-full opacity-30 animate-pulse delay-1000"></div>
+            <div class="absolute top-1/2 left-3/4 w-2 h-2 bg-yellow-400 rounded-full opacity-20 animate-pulse delay-500"></div>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div class="space-y-8">
+                    <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-yellow-400/10 border border-yellow-400/20 text-yellow-400 text-sm font-medium">
+                        <span class="flex h-2 w-2 rounded-full bg-yellow-400 animate-pulse"></span>
+                        <span>New: AI-Powered Predictive Analytics</span>
+                    </div>
+                    
+                    <h1 class="font-display text-5xl md:text-7xl font-bold leading-tight">
+                        Crack the Code of <br/>
+                        <span class="gradient-text text-glow">Your Competition</span>
+                    </h1>
+                    
+                    <p class="text-xl text-gray-400 max-w-lg leading-relaxed">
+                        Harness the power of real-time market intelligence. Chimpy gathers, analyzes, and predicts market trends so you stay three moves ahead.
+                    </p>
+                    
+                    <!-- Email Signup Form -->
+                    <div class="flex flex-col sm:flex-row gap-4 max-w-md">
+                        <input type="email" placeholder="Enter your email" class="flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-full focus:outline-none focus:border-yellow-400/50 focus:ring-2 focus:ring-yellow-400/20 text-white placeholder-gray-500 transition-all">
+                        <button onclick="openModal('signup')" class="px-8 py-4 bg-yellow-400 text-black rounded-full font-bold hover:bg-yellow-300 transition-all transform hover:scale-105 glow-yellow whitespace-nowrap">
+                            Start Free Trial
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center space-x-6 text-sm text-gray-500">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-yellow-400"></i>
+                            <span>No credit card required</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-yellow-400"></i>
+                            <span>14-day free trial</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Content - Mascot & Visual -->
+                <div class="relative flex justify-center items-center">
+                    <!-- Glowing Background Circle -->
+                    <div class="absolute w-96 h-96 bg-yellow-400/20 rounded-full blur-3xl animate-pulse"></div>
+                    
+                    <!-- Mascot Container -->
+                    <div class="relative animate-float">
+                        <div class="relative w-80 h-80 md:w-96 md:h-96">
+                            <!-- Placeholder for Chipmunk Image -->
+                            <div class="w-full h-full rounded-2xl overflow-hidden border-2 border-yellow-400/30 glow-yellow bg-gradient-to-br from-gray-900 to-black flex items-center justify-center relative group cursor-pointer" onclick="openModal('mascot')">
+                                <img src="https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=800&auto=format&fit=crop&q=80" alt="Chimpy Mascot - Professional Chipmunk Analyst" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                <div class="absolute bottom-4 left-4 right-4">
+                                    <div class="flex items-center space-x-2 text-yellow-400">
+                                        <i data-lucide="headphones" class="w-5 h-5"></i>
+                                        <span class="font-display font-bold">Chief Analyst Chimpy</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Floating Badge -->
+                            <div class="absolute -top-4 -right-4 bg-yellow-400 text-black px-4 py-2 rounded-full font-bold text-sm transform rotate-12 shadow-lg">
+                                24/7 Analysis
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i data-lucide="chevron-down" class="w-6 h-6 text-yellow-400"></i>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">
+                    Market Intelligence <span class="text-yellow-400">Tools</span>
+                </h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                    Professional-grade analytics powered by our proprietary AI. Three core tools to dominate your market.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Tool 1: Acorn Gatherer -->
+                <div class="tool-card bg-gradient-to-b from-gray-900 to-black p-8 rounded-2xl relative overflow-hidden group cursor-pointer" onclick="activateTool('acorn')">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-400/10 rounded-full blur-3xl group-hover:bg-yellow-400/20 transition-all"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-yellow-400/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="search" class="w-7 h-7 text-yellow-400"></i>
+                        </div>
+                        <h3 class="font-display text-2xl font-bold mb-3 text-white group-hover:text-yellow-400 transition-colors">The Acorn Gatherer</h3>
+                        <p class="text-gray-400 mb-6 leading-relaxed">
+                            Deep keyword intelligence and data scraping. Discover hidden opportunities your competitors are missing.
+                        </p>
+                        <div class="flex items-center text-yellow-400 font-semibold text-sm group-hover:translate-x-2 transition-transform">
+                            <span>Explore Tool</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </div>
+                
+                <!-- Tool 2: Forest View -->
+                <div class="tool-card bg-gradient-to-b from-gray-900 to-black p-8 rounded-2xl relative overflow-hidden group cursor-pointer" onclick="activateTool('forest')">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-400/10 rounded-full blur-3xl group-hover:bg-yellow-400/20 transition-all"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-yellow-400/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="layout-dashboard" class="w-7 h-7 text-yellow-400"></i>
+                        </div>
+                        <h3 class="font-display text-2xl font-bold mb-3 text-white group-hover:text-yellow-400 transition-colors">Forest View</h3>
+                        <p class="text-gray-400 mb-6 leading-relaxed">
+                            Comprehensive industry overview dashboard. Real-time market share tracking and sector analysis.
+                        </p>
+                        <div class="flex items-center text-yellow-400 font-semibold text-sm group-hover:translate-x-2 transition-transform">
+                            <span>View Dashboard</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </div>
+                
+                <!-- Tool 3: Winter Prep -->
+                <div class="tool-card bg-gradient-to-b from-gray-900 to-black p-8 rounded-2xl relative overflow-hidden group cursor-pointer" onclick="activateTool('winter')">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-400/10 rounded-full blur-3xl group-hover:bg-yellow-400/20 transition-all"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-yellow-400/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="trending-up" class="w-7 h-7 text-yellow-400"></i>
+                        </div>
+                        <h3 class="font-display text-2xl font-bold mb-3 text-white group-hover:text-yellow-400 transition-colors">Winter Prep</h3>
+                        <p class="text-gray-400 mb-6 leading-relaxed">
+                            Predictive ROI analytics and market dip forecasting. Prepare for market shifts before they happen.
+                        </p>
+                        <div class="flex items-center text-yellow-400 font-semibold text-sm group-hover:translate-x-2 transition-transform">
+                            <span>See Predictions</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Demo Section -->
+    <section id="features" class="py-24 bg-black relative overflow-hidden">
+        <div class="absolute inset-0 bg-grid opacity-20"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-6">
+                        Real-Time <span class="text-yellow-400">Trend Tracking</span>
+                    </h2>
+                    <p class="text-gray-400 text-lg mb-8 leading-relaxed">
+                        Watch market movements as they happen. Our AI processes millions of data points to give you the edge in decision-making.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 rounded-full bg-yellow-400/10 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="zap" class="w-6 h-6 text-yellow-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white mb-1">Lightning Fast Updates</h4>
+                                <p class="text-gray-400 text-sm">Data refreshes every 15 seconds</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 rounded-full bg-yellow-400/10 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="shield" class="w-6 h-6 text-yellow-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white mb-1">Enterprise Security</h4>
+                                <p class="text-gray-400 text-sm">Bank-level encryption for all data</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 rounded-full bg-yellow-400/10 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="cpu" class="w-6 h-6 text-yellow-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white mb-1">AI-Powered Insights</h4>
+                                <p class="text-gray-400 text-sm">Machine learning models trained on 10TB of market data</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interactive Chart Visualization -->
+                <div class="bg-gray-900/50 border border-yellow-400/20 rounded-2xl p-6 backdrop-blur-sm">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h3 class="font-display font-bold text-lg">Market Velocity Index</h3>
+                            <p class="text-sm text-gray-500">Live tracking • Last 24 hours</p>
+                        </div>
+                        <div class="flex items-center space-x-2 text-yellow-400">
+                            <span class="flex h-2 w-2 rounded-full bg-yellow-400 animate-pulse"></span>
+                            <span class="text-sm font-semibold">+24.5%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- SVG Chart -->
+                    <svg class="w-full h-64" viewBox="0 0 400 200" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#FFE500;stop-opacity:0.3" />
+                                <stop offset="100%" style="stop-color:#FFE500;stop-opacity:0" />
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Grid Lines -->
+                        <line x1="0" y1="50" x2="400" y2="50" stroke="rgba(255,229,0,0.1)" stroke-width="1"/>
+                        <line x1="0" y1="100" x2="400" y2="100" stroke="rgba(255,229,0,0.1)" stroke-width="1"/>
+                        <line x1="0" y1="150" x2="400" y2="150" stroke="rgba(255,229,0,0.1)" stroke-width="1"/>
+                        
+                        <!-- Area Fill -->
+                        <path d="M0,150 Q50,120 100,140 T200,80 T300,100 T400,40 V200 H0 Z" fill="url(#chartGradient)"/>
+                        
+                        <!-- Line -->
+                        <path d="M0,150 Q50,120 100,140 T200,80 T300,100 T400,40" fill="none" stroke="#FFE500" stroke-width="3" class="chart-line"/>
+                        
+                        <!-- Data Points -->
+                        <circle cx="100" cy="140" r="4" fill="#FFE500" class="animate-pulse"/>
+                        <circle cx="200" cy="80" r="4" fill="#FFE500" class="animate-pulse delay-100"/>
+                        <circle cx="300" cy="100" r="4" fill="#FFE500" class="animate-pulse delay-200"/>
+                        <circle cx="400" cy="40" r="6" fill="#FFE500" class="animate-ping"/>
+                    </svg>
+                    
+                    <div class="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-white/10">
+                        <div>
+                            <p class="text-gray-500 text-xs mb-1">Competitors Tracked</p>
+                            <p class="text-2xl font-bold text-white">2,847</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-xs mb-1">Data Points</p>
+                            <p class="text-2xl font-bold text-yellow-400">14.2M</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-xs mb-1">Accuracy</p>
+                            <p class="text-2xl font-bold text-white">99.2%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-yellow-400/5"></div>
+        <div class="absolute inset-0 bg-grid opacity-10"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h2 class="font-display text-4xl md:text-6xl font-bold mb-6">
+                Ready to Dominate <br/>
+                <span class="text-yellow-400">Your Market?</span>
+            </h2>
+            <p class="text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
+                Join 10,000+ analysts who trust Chimpy to keep them ahead of the curve. Start your free trial today.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="openModal('signup')" class="px-10 py-5 bg-yellow-400 text-black rounded-full font-bold text-lg hover:bg-yellow-300 transition-all transform hover:scale-105 glow-yellow-strong">
+                    Get Started for Free
+                </button>
+                <button onclick="openModal('demo')" class="px-10 py-5 bg-transparent border-2 border-white/20 text-white rounded-full font-bold text-lg hover:border-yellow-400 hover:text-yellow-400 transition-all">
+                    Watch Demo
+                </button>
+            </div>
+            
+            <p class="mt-6 text-sm text-gray-500">No credit card required • 14-day free trial • Cancel anytime</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 bg-black py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
+                            <i data-lucide="mouse-pointer-2" class="w-4 h-4 text-black"></i>
+                        </div>
+                        <span class="font-display font-bold text-lg">Chimpy.</span>
+                    </div>
+                    <p class="text-gray-500 text-sm">
+                        Professional market intelligence for serious analysts.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-white mb-4">Product</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Features</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Pricing</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">API</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-white mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">About</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Careers</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-white mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Privacy</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Terms</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-600 text-sm">© 2026 Chimpy Market Analysis. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors">
+                        <i data-lucide="twitter" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors">
+                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-yellow-400 transition-colors">
+                        <i data-lucide="github" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeModal()"></div>
+    
+    <!-- Sign Up Modal -->
+    <div id="signup-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-gray-900 border border-yellow-400/20 rounded-2xl max-w-md w-full p-8 transform scale-95 opacity-0 transition-all duration-300 modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-display text-2xl font-bold">Create Account</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="handleSubmit(event, 'signup')" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                    <input type="email" required class="w-full px-4 py-3 bg-black border border-white/10 rounded-lg focus:outline-none focus:border-yellow-400 text-white" placeholder="you@company.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Password</label>
+                    <input type="password" required class="w-full px-4 py-3 bg-black border border-white/10 rounded-lg focus:outline-none focus:border-yellow-400 text-white" placeholder="••••••••">
+                </div>
+                <button type="submit" class="w-full py-3 bg-yellow-400 text-black rounded-lg font-bold hover:bg-yellow-300 transition-colors">
+                    Start Free Trial
+                </button>
+            </form>
+            
+            <p class="mt-4 text-center text-sm text-gray-500">
+                Already have an account? <button onclick="switchModal('signin')" class="text-yellow-400 hover:underline">Sign in</button>
+            </p>
+        </div>
+    </div>
+
+    <!-- Sign In Modal -->
+    <div id="signin-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-gray-900 border border-yellow-400/20 rounded-2xl max-w-md w-full p-8 transform scale-95 opacity-0 transition-all duration-300 modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-display text-2xl font-bold">Welcome Back</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="handleSubmit(event, 'signin')" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                    <input type="email" required class="w-full px-4 py-3 bg-black border border-white/10 rounded-lg focus:outline-none focus:border-yellow-400 text-white" placeholder="you@company.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Password</label>
+                    <input type="password" required class="w-full px-4 py-3 bg-black border border-white/10 rounded-lg focus:outline-none focus:border-yellow-400 text-white" placeholder="••••••••">
+                </div>
+                <button type="submit" class="w-full py-3 bg-yellow-400 text-black rounded-lg font-bold hover:bg-yellow-300 transition-colors">
+                    Sign In
+                </button>
+            </form>
+            
+            <p class="mt-4 text-center text-sm text-gray-500">
+                Don't have an account? <button onclick="switchModal('signup')" class="text-yellow-400 hover:underline">Sign up</button>
+            </p>
+        </div>
+    </div>
+
+    <!-- Demo Modal -->
+    <div id="demo-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-gray-900 border border-yellow-400/20 rounded-2xl max-w-2xl w-full p-8 transform scale-95 opacity-0 transition-all duration-300 modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-display text-2xl font-bold">Platform Demo</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <div class="aspect-video bg-black rounded-lg flex items-center justify-center border border-white/10 relative overflow-hidden group cursor-pointer">
+                <div class="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-transparent"></div>
+                <div class="w-20 h-20 rounded-full bg-yellow-400 flex items-center justify-center group-hover:scale-110 transition-transform cursor-pointer">
+                    <i data-lucide="play" class="w-8 h-8 text-black ml-1"></i>
+                </div>
+                <p class="absolute bottom-4 text-gray-400 text-sm">Watch how Chimpy analyzes markets in real-time</p>
+            </div>
+            
+            <div class="mt-6 grid grid-cols-3 gap-4 text-center">
+                <div class="p-4 bg-black/50 rounded-lg">
+                    <p class="text-2xl font-bold text-yellow-400">3 min</p>
+                    <p class="text-xs text-gray-500">Duration</p>
+                </div>
+                <div class="p-4 bg-black/50 rounded-lg">
+                    <p class="text-2xl font-bold text-yellow-400">4.9</p>
+                    <p class="text-xs text-gray-500">Rating</p>
+                </div>
+                <div class="p-4 bg-black/50 rounded-lg">
+                    <p class="text-2xl font-bold text-yellow-400">10k+</p>
+                    <p class="text-xs text-gray-500">Views</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mascot Modal -->
+    <div id="mascot-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-gray-900 border border-yellow-400/20 rounded-2xl max-w-lg w-full p-8 transform scale-95 opacity-0 transition-all duration-300 modal-content text-center">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            
+            <div class="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-yellow-400 glow-yellow">
+                <img src="https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=400&auto=format&fit=crop&q=80" alt="Chimpy" class="w-full h-full object-cover">
+            </div>
+            
+            <h3 class="font-display text-2xl font-bold mb-2">Meet Chimpy</h3>
+            <p class="text-gray-400 mb-6">Our Chief Market Analyst. Working 24/7 to gather the best acorns... we mean data... for your business.</p>
+            
+            <div class="flex justify-center space-x-4">
+                <div class="text-center">
+                    <p class="text-2xl font-bold text-yellow-400">5+</p>
+                    <p class="text-xs text-gray-500">Years Experience</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-2xl font-bold text-yellow-400">1M+</p>
+                    <p class="text-xs text-gray-500">Acorns Gathered</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-2xl font-bold text-yellow-400">100%</p>
+                    <p class="text-xs text-gray-500">Dedication</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Modal Management
+        function openModal(type) {
+            const overlay = document.getElementById('modal-overlay');
+            const modal = document.getElementById(type + '-modal');
+            const content = modal.querySelector('.modal-content');
+            
+            overlay.classList.remove('hidden');
+            modal.classList.remove('hidden');
+            
+            // Trigger animation
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+        
+        function closeModal() {
+            const overlay = document.getElementById('modal-overlay');
+            const modals = document.querySelectorAll('[id$="-modal"]');
+            
+            overlay.classList.add('opacity-0');
+            
+            modals.forEach(modal => {
+                if (!modal.classList.contains('hidden')) {
+                    const content = modal.querySelector('.modal-content');
+                    content.classList.remove('scale-100', 'opacity-100');
+                    content.classList.add('scale-95', 'opacity-0');
+                }
+            });
+            
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                modals.forEach(modal => modal.classList.add('hidden'));
+            }, 300);
+        }
+        
+        function switchModal(type) {
+            closeModal();
+            setTimeout(() => openModal(type), 300);
+        }
+        
+        function handleSubmit(e, type) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.textContent;
+            
+            btn.textContent = type === 'signup' ? 'Creating Account...' : 'Signing In...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.textContent = type === 'signup' ? 'Account Created!' : 'Welcome Back!';
+                btn.classList.remove('bg-yellow-400', 'text-black');
+                btn.classList.add('bg-green-500', 'text-white');
+                
+                setTimeout(() => {
+                    closeModal();
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                    btn.classList.add('bg-yellow-400', 'text-black');
+                    btn.classList.remove('bg-green-500', 'text-white');
+                    e.target.reset();
+                }, 1000);
+            }, 1500);
+        }
+        
+        // Tool Activation
+        function activateTool(tool) {
+            const messages = {
+                acorn: "Activating Acorn Gatherer... Scanning for keyword opportunities!",
+                forest: "Opening Forest View... Loading industry dashboard.",
+                winter: "Initializing Winter Prep... Analyzing market predictions."
+            };
+            
+            // Create toast notification
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-8 right-8 bg-yellow-400 text-black px-6 py-4 rounded-lg font-semibold shadow-2xl transform translate-y-20 transition-transform duration-300 z-50 flex items-center space-x-3';
+            toast.innerHTML = `
+                <i data-lucide="check-circle" class="w-5 h-5"></i>
+                <span>${messages[tool]}</span>
+            `;
+            document.body.appendChild(toast);
+            lucide.createIcons();
+            
+            setTimeout(() => toast.classList.remove('translate-y-20'), 100);
+            setTimeout(() => {
+                toast.classList.add('translate-y-20');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+        
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all cards
+        document.querySelectorAll('.tool-card').forEach(card => {
+            observer.observe(card);
+        });
+        
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.animate-float');
+            if (parallax) {
+                parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
